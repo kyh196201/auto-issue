@@ -1,0 +1,22 @@
+{
+  "name": "@seungwoo-kim/auto-issue",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "node src/cli.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "auto-issue": "src/cli.js"
+  },
+  "files": [
+    "src"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "shelljs": "^0.8.5"
+  }
+}
