@@ -1,7 +1,7 @@
 {
   "name": "@seungwoo-kim/auto-issue",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "Node.js CLI with Notion API",
   "type": "module",
   "scripts": {
     "dev": "node src/cli.js",

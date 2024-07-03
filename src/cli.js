@@ -10,12 +10,12 @@ import chalk from 'chalk';
 const config = new Conf({ projectName: 'auto-issue' });
 const program = new Command();
 
-program.name('auto-issue').description('CLI by seungwoo-kim').version('0.0.1');
+program.name('auto-issue').description('CLI with Notion API by seungwoo-kim').version('1.0.1');
 
 // Db command
 program
   .command('db')
-  .description('🔎 노션 데이터베이스 정보 조회')
+  .description('노션 데이터베이스 정보 조회')
   .action(() => {
     getDatabaseInfo().then((response) => {
       console.log('🔎 노션 데이터 베이스 정보', response);
@@ -25,7 +25,7 @@ program
 // Clear command
 program
   .command('clear')
-  .description('CLI config 초기화')
+  .description('CLI 설정 초기화')
   .action(() => {
     config.clear();
   });
@@ -33,7 +33,7 @@ program
 // Setup command
 program
   .command('setup')
-  .description('⚙️ CLI config 설정')
+  .description('CLI 설정')
   .action(async () => {
     if (config.get('notion_apiKey') && config.get('notion_databaseId')) {
       console.log(chalk.red('Already setup!'));
@@ -69,7 +69,7 @@ program
 
 program
   .command('create-branch')
-  .description('브랜치를 생성합니다.')
+  .description('브랜치를 생성')
   .argument('<name>', '브랜치 이름')
   .option('-it, --issue-type <type>', '이슈 타입', 'bugfix')
   .option('-t, --target <target>', '브랜치를 생성할 타겟이 되는 원격 브랜치', 'origin/develop')
@@ -87,7 +87,7 @@ program
 // Start command
 program
   .command('start')
-  .description('💡 티켓 시작(브랜치를 생성하고, 노션 데이터베이스에 페이지를 생성합니다.)')
+  .description('티켓 시작(브랜치를 생성하고, 노션 데이터베이스에 페이지를 생성합니다.)')
   .action(async () => {
     if (!config.get('notion_apiKey') || !config.get('notion_databaseId')) {
       console.log(chalk.red('설정을 먼저 완료하세요.(auto-issue help)'));
