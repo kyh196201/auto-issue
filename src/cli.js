@@ -2,7 +2,7 @@
 
 import { Command } from 'commander';
 import shell from 'shelljs';
-import { createIssue, getDatabaseInfo } from './notion.js';
+import { createIssue, getDatabaseInfo, getIssueOfThisWeek } from './notion.js';
 import Conf from 'conf';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
@@ -140,10 +140,9 @@ program
         return answers.targetBranch;
       });
 
-    const branchName = `${ticketType}/${ticketTitle}`;
-
     shell.exec('git fetch origin');
 
+    const branchName = `${ticketType}/${ticketTitle}`;
     const shellResponse = shell.exec(`git switch -c "${branchName}" "${targetBranch}"`);
 
     if (shellResponse.code === 0) {
@@ -155,6 +154,18 @@ program
     }
 
     shell.exit();
+  });
+
+// Get Issue of this week command
+program
+  .command('issues')
+  .description('이번주 이슈 목록 조회')
+  .option('-it, --issue-type <type>', '이슈 타입', 'bugfix')
+  .action(() => {
+    // TODO: issueType parameter validation
+    getIssueOfThisWeek().then((issues) => {
+      console.log(issues);
+    });
   });
 
 program.parse();

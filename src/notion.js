@@ -51,4 +51,36 @@ async function createIssue({ ticketTitle, ticketType }) {
   return response;
 }
 
-export { createIssue, getDatabaseInfo };
+// TODO: issueType parameter
+async function getIssueOfThisWeek() {
+  const response = await notion.databases.query({
+    database_id: databaseId,
+    filter: {
+      and: [
+        {
+          property: '날짜',
+          date: {
+            this_week: {},
+          },
+        },
+        {
+          property: '이슈_유형',
+          select: {
+            equals: 'bugfix',
+          },
+        },
+      ],
+    },
+  });
+
+  return response.results.map((it) => {
+    const title = it.properties['이름'].title[0];
+
+    return {
+      text: title.text.content,
+      link: title.text.link,
+    };
+  });
+}
+
+export { createIssue, getDatabaseInfo, getIssueOfThisWeek };
