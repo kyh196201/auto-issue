@@ -51,8 +51,7 @@ async function createIssue({ ticketTitle, ticketType }) {
   return response;
 }
 
-// TODO: issueType parameter
-async function getIssueOfThisWeek() {
+async function getIssueOfThisWeek({ issueType }) {
   const response = await notion.databases.query({
     database_id: databaseId,
     filter: {
@@ -65,15 +64,20 @@ async function getIssueOfThisWeek() {
         },
         {
           property: '이슈_유형',
-          select: {
-            equals: 'bugfix',
-          },
+          select: issueType
+            ? {
+                equals: issueType,
+              }
+            : {
+                // 이슈_유형 속성에 값이 있는 모든 데이터를 조회
+                is_not_empty: true,
+              },
         },
       ],
     },
   });
 
-  return response.results.map((it) => {
+  const issues = response.results.map((it) => {
     const title = it.properties['이름'].title[0];
 
     return {
@@ -81,6 +85,11 @@ async function getIssueOfThisWeek() {
       link: title.text.link,
     };
   });
+
+  return {
+    issues,
+    count: issues.length,
+  };
 }
 
 export { createIssue, getDatabaseInfo, getIssueOfThisWeek };

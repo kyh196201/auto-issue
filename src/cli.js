@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
+import { Command, Option } from 'commander';
 import shell from 'shelljs';
 import { createIssue, getDatabaseInfo, getIssueOfThisWeek } from './notion.js';
 import Conf from 'conf';
@@ -156,14 +156,13 @@ program
     shell.exit();
   });
 
-// Get Issue of this week command
+// Get Issue of this week and issue counts command
 program
   .command('issues')
-  .description('이번주 이슈 목록 조회')
-  .option('-it, --issue-type <type>', '이슈 타입', 'bugfix')
-  .action(() => {
-    // TODO: issueType parameter validation
-    getIssueOfThisWeek().then((issues) => {
+  .description('이번주 이슈 목록 및 개수 조회')
+  .addOption(new Option('-it, --issue-type <type>', '이슈 타입').choices(['bugfix', 'feature', 'hotfix']))
+  .action(({ issueType }) => {
+    getIssueOfThisWeek({ issueType }).then((issues) => {
       console.log(issues);
     });
   });
