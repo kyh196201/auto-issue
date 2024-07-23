@@ -1,6 +1,6 @@
 {
   "name": "@seungwoo-kim/auto-issue",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Node.js CLI with Notion API",
   "type": "module",
   "scripts": {
@@ -13,8 +13,12 @@
   "files": [
     "src"
   ],
-  "author": "",
+  "author": "SEUNGWOO KIM",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kyh196201/auto-issue.git"
+  },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
     "chalk": "^5.3.0",

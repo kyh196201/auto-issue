@@ -19,6 +19,13 @@ npm run dev -- clear
 
 # auto-issue start
 npm run dev -- start
+
+# auto-issue issues
+npm run dev -- issues
+
+# auto-issue issues with option
+npm run dev -- issues --issue-type=bugfix
+npm run dev -- issues -it bugfix
 ```
 
 ## Use
@@ -29,9 +36,18 @@ npm install -g @seungwoo-kim/auto-issue
 which auto-issue
 
 auto-issue help
+
+auto-issue setup
+
+auto-issue clear
+
+auto-issue issues
+
+auto-issue issues --issue-type=bugfix
+auto-issue issues -it bugfix
 ```
 
 ## TODO
 
-- [ ] 이번 주에 작업한 티켓 목록 조회하기(parameter = ticketType)
-- [ ] 소스 정리
+- [x] 이번 주에 작업한 티켓 목록 조회하기(parameter = ticketType)
+- [ ] Command 파일 분리
