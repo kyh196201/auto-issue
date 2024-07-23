@@ -1,5 +1,6 @@
 import { Client } from '@notionhq/client';
 import Conf from 'conf';
+import { NOTION_DB_PROPERTY } from './constants.js';
 
 const config = new Conf({ projectName: 'auto-issue' });
 const apiKey = config.get('notion_apiKey');
@@ -26,7 +27,7 @@ async function createIssue({ ticketTitle, ticketType }) {
       database_id: databaseId,
     },
     properties: {
-      이름: {
+      [NOTION_DB_PROPERTY.NAME]: {
         title: [
           {
             text: {
@@ -35,12 +36,12 @@ async function createIssue({ ticketTitle, ticketType }) {
           },
         ],
       },
-      날짜: {
+      [NOTION_DB_PROPERTY.DATE]: {
         date: {
           start: new Date().toISOString(),
         },
       },
-      이슈_유형: {
+      [NOTION_DB_PROPERTY.ISSUE_TYPE]: {
         select: {
           name: ticketType,
         },
@@ -57,13 +58,13 @@ async function getIssueOfThisWeek({ issueType }) {
     filter: {
       and: [
         {
-          property: '날짜',
+          property: NOTION_DB_PROPERTY.DATE,
           date: {
             this_week: {},
           },
         },
         {
-          property: '이슈_유형',
+          property: NOTION_DB_PROPERTY.ISSUE_TYPE,
           select: issueType
             ? {
                 equals: issueType,

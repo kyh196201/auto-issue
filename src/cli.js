@@ -6,6 +6,8 @@ import { createIssue, getDatabaseInfo, getIssueOfThisWeek } from './notion.js';
 import Conf from 'conf';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
+import { ISSUE_TYPES } from './constants.js';
+import { isValidIssueType } from './helper.js';
 
 const config = new Conf({ projectName: 'auto-issue' });
 const program = new Command();
@@ -103,8 +105,7 @@ program
           message: '티켓 타입 입력 (bugfix, feature, hotfix)',
           default: 'bugfix',
           validate: (value) => {
-            const types = ['bugfix', 'feature', 'hotfix'];
-            return types.includes(value) || 'Invalid issue type';
+            return isValidIssueType(value) || 'Invalid issue type';
           },
         },
       ])
@@ -160,7 +161,7 @@ program
 program
   .command('issues')
   .description('이번주 이슈 목록 및 개수 조회')
-  .addOption(new Option('-it, --issue-type <type>', '이슈 타입').choices(['bugfix', 'feature', 'hotfix']))
+  .addOption(new Option('-it, --issue-type <type>', '이슈 타입').choices(ISSUE_TYPES))
   .action(({ issueType }) => {
     getIssueOfThisWeek({ issueType }).then((issues) => {
       console.log(issues);
